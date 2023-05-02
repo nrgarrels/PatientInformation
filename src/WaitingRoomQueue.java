@@ -1,3 +1,24 @@
+/**************************************************************
+* Name        : Patient Information Final Project
+* Author      : Nick Garrels
+* Created     : 5/02/2023
+* Course      : CIS 152 Data Structures
+* Version     : 1.0
+* OS          : Windows 10
+* Copyright   : This is my own original work based on
+*               specifications issued by our instructor
+* Description : This program allows a user to input patient information
+* 				and store it in a linked list. Also allows for users to
+* 				create a wait list by patient id, and also sort that 
+* 				wait list by min value of patient id.
+*               Input:  Patient information from the user
+*               Output: The patient information in a data structure
+*               		form
+* Academic Honesty: I attest that this is my original work.
+* I have not used unauthorized source code, either modified or 
+* unmodified. I have not given other fellow student(s) access to
+* my program.         
+***************************************************************/
 import java.util.*;
 
 //Class to Create a Waiting room queue
@@ -90,76 +111,63 @@ class Queue{
         return count;
     }
     
-   //Sort Algorithm Function
+   //Sort Function to move front of queue to back for sort
     static void FrontToLast(Queue q, int qsize){
-    	// Base condition
+    	
+    	//if queue is empty
     	if (qsize <= 0)
     		return;
 
-    	// pop front element and push
-    	// this last in a queue
+    	//Move front to back
     	q.enqueue(q.peek());
     	q.dequeue();
 
-    	// Recursive call for pushing element
+    	// Recursion
     	FrontToLast(q, qsize - 1);
     }
 
-    //Function to push an element in the queue
-    //while maintaining the sorted order
+    //Sort Function to move patients wile keeping order 
     static void pushInQueue(Queue q, int temp, int qsize){
 
-    	// Base condition
+    	//If queue is empty
     	if (q.isEmpty() || qsize == 0){
     		q.enqueue(temp);
     		return;
     	}
 
-    	// If current element is less than
-    	// the element at the front
+    	//Checks if first is bigger or not then will 
     	else if (temp <= q.peek()){
 
-    		// Call stack with front of queue
+    		//Adds to queue
     		q.enqueue(temp);
 
-    		// Recursive call for inserting a front
-    		// element of the queue to the last
+    		//Recursion
     		FrontToLast(q, qsize);
     		
     	}else{
 
-    		// Push front element into
-    		// last in a queue
+    		//Push first to last
     		q.enqueue(q.peek());
     		q.dequeue();
 
-    		// Recursive call for pushing
-    		// element in a queue
+    		//Recursion
     		pushInQueue(q, temp, qsize - 1);
     	}
     }
 
-    //Function to sort the given
-    //queue using recursion
+    //Sort Function sorts queue by smallest patient id to biggest
     static Queue sortQueue(Queue q){
 
-    	// Return if queue is empty
+    	//If queue is empty
     	if (q.isEmpty())
     		return q;
 
-    	// Get the front element which will
-    	// be stored in this variable
-    	// throughout the recursion stack
+    	//Assign front to tempt
     	int temp = q.peek();
-
-    	// Remove the front element
     	q.dequeue();
 
-    	// Recursive call
+    	//Recursion
     	sortQueue(q);
-
-    	// Push the current element into the queue
-    	// according to the sorting order
     	pushInQueue(q, temp, q.size());
     	
     	return q;
